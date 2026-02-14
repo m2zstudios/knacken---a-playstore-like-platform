@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MyPlay Marketplace</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#2563eb;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --radius:22px;
+}
+
+body.dark{
+  --bg:#0b1220;
+  --card:#111827;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  transition:0.3s ease;
+}
+
+/* HEADER */
+header{
+  position:sticky;
+  top:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 5%;
+  backdrop-filter:blur(14px);
+  background:rgba(255,255,255,0.75);
+  z-index:100;
+}
+
+body.dark header{
+  background:rgba(17,24,39,0.75);
+}
+
+.logo{
+  font-weight:800;
+  font-size:20px;
+  color:var(--primary);
+}
+
+.search input{
+  padding:10px 16px;
+  border-radius:30px;
+  border:1px solid #ddd;
+  width:250px;
+  outline:none;
+}
+
+.toggle{cursor:pointer;font-size:18px;}
+
+/* LAYOUT */
+.container{
+  display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:230px;
+  padding:25px;
+  background:var(--card);
+  border-right:1px solid rgba(0,0,0,0.05);
+  display:none;
+  flex-direction:column;
+  gap:18px;
+}
+
+.sidebar a{
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+}
+
+/* MAIN */
+main{
+  flex:1;
+  padding:30px 5%;
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#2563eb,#60a5fa);
+  padding:40px;
+  border-radius:var(--radius);
+  color:white;
+  margin-bottom:35px;
+}
+
+/* SECTION */
+.section{
+  margin-bottom:40px;
+}
+
+.section h3{
+  margin-bottom:18px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:22px;
+}
+
+/* CARD */
+.card{
+  background:var(--card);
+  padding:18px;
+  border-radius:var(--radius);
+  box-shadow:0 10px 30px rgba(0,0,0,0.06);
+  transition:0.3s ease;
+  cursor:pointer;
+  position:relative;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+}
+
+.icon{
+  width:75px;height:75px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#2563eb,#60a5fa);
+  margin-bottom:14px;
+}
+
+.name{font-weight:600;}
+.dev{font-size:13px;color:var(--muted);}
+.stars{color:#fbbf24;font-size:13px;margin:6px 0;}
+
+.install{
+  margin-top:10px;
+  padding:9px;
+  border-radius:25px;
+  border:none;
+  width:100%;
+  background:var(--primary);
+  color:white;
+  font-weight:500;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.install.open{background:#16a34a;}
+
+.wishlist{
+  position:absolute;
+  top:14px;
+  right:14px;
+  cursor:pointer;
+}
+
+/* DETAIL */
+.detail{
+  display:none;
+  animation:fade 0.3s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(15px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.screens{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  margin:20px 0;
+}
+
+.shot{
+  min-width:220px;
+  height:150px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#ddd,#bbb);
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  background:var(--card);
+  padding:15px 22px;
+  border-radius:14px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.15);
+  display:none;
+}
+
+/* MOBILE NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:var(--card);
+  display:flex;
+  justify-content:space-around;
+  padding:12px 0;
+  box-shadow:0 -5px 15px rgba(0,0,0,0.05);
+}
+
+@media(min-width:950px){
+  .sidebar{display:flex;}
+  .bottom-nav{display:none;}
+}
+
+@media(max-width:600px){
+  .search{display:none;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">MyPlay</div>
+  <div class="search"><input id="searchInput" placeholder="Search apps..."></div>
+  <div class="toggle" onclick="toggleDark()">🌙</div>
+</header>
+
+<div class="container">
+
+  <div class="sidebar">
+    <a href="#">For You</a>
+    <a href="#">Top Charts</a>
+    <a href="#">Categories</a>
+    <a href="#">Premium</a>
+  </div>
+
+  <main>
+
+    <div id="home">
+      <div class="hero">
+        <h2>Discover Powerful Apps</h2>
+        <p>Curated marketplace with professional experience.</p>
+      </div>
+
+      <div class="section">
+        <h3>Trending Apps</h3>
+        <div class="grid" id="grid"></div>
+      </div>
+    </div>
+
+    <div id="detail" class="detail"></div>
+
+  </main>
+</div>
+
+<div class="bottom-nav">
+  <div>Home</div>
+  <div>Top</div>
+  <div>Profile</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const apps=[
+{id:1,name:"Chat AI",dev:"AI Labs",rating:4.8,downloads:120000},
+{id:2,name:"Photo Editor",dev:"Pixel Studio",rating:4.5,downloads:98000},
+{id:3,name:"Crypto Wallet",dev:"SecureX",rating:4.6,downloads:150000},
+{id:4,name:"Music Player",dev:"SoundWave",rating:4.4,downloads:75000},
+{id:5,name:"Fitness Pro",dev:"Healthify",rating:4.7,downloads:88000}
+];
+
+const grid=document.getElementById("grid");
+const detail=document.getElementById("detail");
+const home=document.getElementById("home");
+const toast=document.getElementById("toast");
+
+function stars(r){
+  return "★".repeat(Math.floor(r))+"☆".repeat(5-Math.floor(r));
+}
+
+function render(){
+  grid.innerHTML="";
+  apps.forEach(app=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+      <div class="wishlist">♡</div>
+      <div class="icon"></div>
+      <div class="name">${app.name}</div>
+      <div class="dev">${app.dev}</div>
+      <div class="stars">${stars(app.rating)} (${app.rating})</div>
+      <button class="install">${localStorage.getItem(app.id)?"Open":"Install"}</button>
+    `;
+
+    card.onclick=()=>showDetail(app);
+
+    card.querySelector(".install").onclick=(e)=>{
+      e.stopPropagation();
+      installApp(app.id,e.target);
+    };
+
+    card.querySelector(".wishlist").onclick=(e)=>{
+      e.stopPropagation();
+      showToast("Added to Wishlist ❤️");
+    };
+
+    grid.appendChild(card);
+  });
+}
+
+function installApp(id,btn){
+  btn.innerText="Installing...";
+  setTimeout(()=>{
+    localStorage.setItem(id,true);
+    btn.innerText="Open";
+    btn.classList.add("open");
+    showToast("App Installed Successfully 🎉");
+  },1000);
+}
+
+function showDetail(app){
+  home.style.display="none";
+  detail.style.display="block";
+  detail.innerHTML=`
+    <button onclick="goHome()">← Back</button>
+    <h2>${app.name}</h2>
+    <p>${app.dev}</p>
+    <p>${stars(app.rating)} (${app.rating})</p>
+    <p>${app.downloads.toLocaleString()} downloads</p>
+    <div class="screens">
+      <div class="shot"></div>
+      <div class="shot"></div>
+      <div class="shot"></div>
+    </div>
+    <button class="install">${localStorage.getItem(app.id)?"Open":"Install"}</button>
+  `;
+}
+
+function goHome(){
+  detail.style.display="none";
+  home.style.display="block";
+}
+
+function showToast(msg){
+  toast.innerText=msg;
+  toast.style.display="block";
+  setTimeout(()=>toast.style.display="none",2000);
+}
+
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
+
+document.getElementById("searchInput").addEventListener("input",e=>{
+  const val=e.target.value.toLowerCase();
+  const filtered=apps.filter(a=>a.name.toLowerCase().includes(val));
+  grid.innerHTML="";
+  filtered.forEach(app=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+      <div class="icon"></div>
+      <div class="name">${app.name}</div>
+      <div class="dev">${app.dev}</div>
+      <div class="stars">${stars(app.rating)}</div>
+      <button class="install">Install</button>
+    `;
+    card.onclick=()=>showDetail(app);
+    grid.appendChild(card);
+  });
+});
+
+render();
+</script>
+
+</body>
+</html>
